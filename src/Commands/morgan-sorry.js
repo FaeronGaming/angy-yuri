@@ -15,7 +15,7 @@ module.exports = {
     await prisma.tip.update({
       where: { id: currentTip.id },
       data: {
-        value: newAmount
+        value: { set: newAmount }
       }
     });
     await interaction.reply({ content: `That's another nickel. We're at \`${formatter.format(newAmount)}\`` });
