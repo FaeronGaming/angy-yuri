@@ -11,13 +11,13 @@ module.exports = {
     .setDescription("Someone apologized for no reason?"),
   execute: async (interaction, client, prisma) => {
     const currentTip = await prisma.tip.findFirst();
-    const newAmount = currentTip.value + currentTip.increment;
     await prisma.tip.update({
       where: { id: currentTip.id },
       data: {
-        value: { set: newAmount }
+        value: { increment: currentTip.increment }
       }
     });
-    await interaction.reply({ content: `That's another nickel. We're at \`${formatter.format(newAmount)}\`` });
+    const updatedTip = await prisma.tip.findFirst();
+    await interaction.reply({ content: `That's another nickel. We're at \`${formatter.format(updatedTip.value)}\`` });
   }
 };
