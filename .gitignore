@@ -29,4 +29,5 @@ yarn-error.log*
 # out dir
 dist/
 
-# .yarn
+# .env
+.env
