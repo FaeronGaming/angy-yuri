@@ -6,6 +6,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon .",
+    "install": "npx prisma generate",
     "start": "node ."
   },
   "dependencies": {
