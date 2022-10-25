@@ -2,12 +2,17 @@ const { REST } = require("@discordjs/rest"); // Define REST.
 const { Routes } = require("discord-api-types/v9"); // Define Routes.
 const fs = require("fs"); // Define fs (file system).
 const { Client, Intents, Collection } = require("discord.js"); // Define Client, Intents, and Collection.
+const { PrismaClient } = require("@prisma/client");
+
 const client = new Client({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
 }); // Connect to our discord bot.
 const commands = new Collection(); // Where the bot (slash) commands will be stored.
 const commandarray = []; // Array to store commands for sending to the REST API.
 const token = process.env.DISCORD_TOKEN; // Token from Railway Env Variable.
+
+const prisma = new PrismaClient();
+
 // Execute code when the "ready" client event is triggered.
 client.once("ready", () => {
   const commandFiles = fs
@@ -47,7 +52,7 @@ client.on("interactionCreate", async interaction => {
   if (!command) return;
 
   try {
-    await command.execute(interaction, client);
+    await command.execute(interaction, client, prisma);
   } catch (error) {
     console.error(error);
     return interaction.reply({
